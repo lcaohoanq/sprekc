@@ -1,0 +1,1 @@
+INSERT INTO "public"."comments" ("id", "text", "timestamp", "username", "movie_imdb_id") VALUES ('1', 'good', '2025-04-18 10:33:01.490182+00', 'user', 'tt0120804'), ('2', 'hay do', '2025-04-18 10:55:04.910295+00', 'hoangdz1604@gmail.com', 'tt0120804');
