@@ -65,3 +65,5 @@ secrets/
 application-*
 
 docker-compose-production.yml
+
+*storybook.log
