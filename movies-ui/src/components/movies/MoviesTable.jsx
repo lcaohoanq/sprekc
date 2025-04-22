@@ -11,52 +11,54 @@ function MoviesTable({ movies, handleDeleteMovie, handleEditMovie }) {
 
   const movieList = movies && movies.map(movie => {
     return (
-      <Table.Row key={movie.imdbId}>
-        <Table.Cell collapsing>
-          <Button
-            circular
-            color='red'
-            size='small'
-            icon='trash'
-            onClick={() => handleDeleteMovie(movie)}
-          />
-          <Button
-            circular
-            color='orange'
-            size='small'
-            icon='edit'
-            onClick={() => handleEditMovie(movie)}
-          />
-        </Table.Cell>
-        <Table.Cell>{movie.imdbId}</Table.Cell>
-        <Table.Cell>{movie.title}</Table.Cell>
-        <Table.Cell>{movie.director}</Table.Cell>
-        <Table.Cell>{movie.year}</Table.Cell>
-        <Table.Cell>
-          <Image size='tiny' src={movie.poster ? movie.poster : '/images/movie-poster.jpg'} rounded />
-        </Table.Cell>
-      </Table.Row>
+        <tr key={movie.imdbId} className="border-b">
+          <td className="px-2 py-3">
+            <button
+                className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
+                onClick={() => handleDeleteMovie(movie)}
+            >
+              <i className="fas fa-trash"></i>
+            </button>
+            <button
+                className="bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 ml-2"
+                onClick={() => handleEditMovie(movie)}
+            >
+              <i className="fas fa-edit"></i>
+            </button>
+          </td>
+          <td className="px-4 py-3">{movie.imdbId}</td>
+          <td className="px-4 py-3">{movie.title}</td>
+          <td className="px-4 py-3">{movie.director}</td>
+          <td className="px-4 py-3">{movie.year}</td>
+          <td className="px-4 py-3">
+            <img
+                className="w-16 h-16 object-cover rounded"
+                src={movie.poster ? movie.poster : '/images/movie-poster.jpg'}
+                alt="Movie Poster"
+            />
+          </td>
+        </tr>
     )
   })
 
   return (
-    <div style={style}>
-      <Table compact striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell width={2}/>
-            <Table.HeaderCell width={2}>ImdbID</Table.HeaderCell>
-            <Table.HeaderCell width={4}>Title</Table.HeaderCell>
-            <Table.HeaderCell width={3}>Director</Table.HeaderCell>
-            <Table.HeaderCell width={2}>Year</Table.HeaderCell>
-            <Table.HeaderCell width={3}>Poster</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <div style={style}>
+        <table className="min-w-full bg-white border-collapse">
+          <thead>
+          <tr className="bg-gray-200">
+            <th className="px-4 py-2">Actions</th>
+            <th className="px-4 py-2">ImdbID</th>
+            <th className="px-4 py-2">Title</th>
+            <th className="px-4 py-2">Director</th>
+            <th className="px-4 py-2">Year</th>
+            <th className="px-4 py-2">Poster</th>
+          </tr>
+          </thead>
+          <tbody>
           {movieList}
-        </Table.Body>
-      </Table>
-    </div>
+          </tbody>
+        </table>
+      </div>
   )
 }
 

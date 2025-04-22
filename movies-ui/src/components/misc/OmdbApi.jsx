@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { config } from '../../Constants'
+import { config } from '@/Constants.js'
 
 export const omdbApi = {
   getMovies

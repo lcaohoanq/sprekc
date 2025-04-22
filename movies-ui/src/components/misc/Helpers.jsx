@@ -1,4 +1,4 @@
-import { config } from '../../Constants'
+import { config } from '@/Constants.js'
 
 export const getAvatarUrl = (text) => {
   return `${config.url.AVATARS_DICEBEAR_URL}/avataaars/svg?seed=${text}`

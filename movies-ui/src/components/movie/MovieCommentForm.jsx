@@ -2,36 +2,37 @@ import React from 'react'
 
 function MovieCommentForm({ authenticated, commentText, handleAddComment, handleChange }) {
   return (
-    <>
-      <Header>Add a comment</Header>
-      <Divider />
-      <Dimmer.Dimmable dimmed={!authenticated}>
-        <Form onSubmit={handleAddComment}>
-          <Form.Group inline>
-            <Form.Input
-              id='commentText'
-              value={commentText}
-              placeholder='Tell us more about ...'
-              style={{ resize: 'none' }}
-              onChange={handleChange}
-              fluid
-              width={13}
-            />
-            <Form.Button
-              content='Submit'
-              disabled={commentText.trim() === ''}
-              color='blue'
-              fluid
-              width={3}
-            />
-          </Form.Group>
-        </Form>
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Add a comment</h2>
+        <hr className="border-gray-300" />
 
-        <Dimmer active={!authenticated}>
-          <Header inverted>To add a comment you must be logged in</Header>
-        </Dimmer>
-      </Dimmer.Dimmable>
-    </>
+        <div className={`relative ${!authenticated ? 'opacity-50 pointer-events-none' : ''}`}>
+          <form onSubmit={handleAddComment} className="flex gap-4">
+            <input
+                id="commentText"
+                value={commentText}
+                onChange={handleChange}
+                placeholder="Tell us more about ..."
+                className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+                type="submit"
+                disabled={commentText.trim() === ''}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            >
+              Submit
+            </button>
+          </form>
+
+          {!authenticated && (
+              <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center rounded">
+                <h3 className="text-white text-center text-sm font-medium">
+                  To add a comment you must be logged in
+                </h3>
+              </div>
+          )}
+        </div>
+      </div>
   )
 }
 

@@ -3,9 +3,11 @@ import MovieCard from '../home/MovieCard'
 
 function CompleteStep({ movie }) {
   return (
-    <Card.Group doubling centered>
-      <MovieCard movie={movie} link={false} />
-    </Card.Group>
+      <div className="flex justify-center">
+        <div className="flex flex-wrap justify-center gap-6">
+          <MovieCard movie={movie} link={false} />
+        </div>
+      </div>
   )
 }
 

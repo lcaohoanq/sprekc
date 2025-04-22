@@ -21,16 +21,16 @@ function Home() {
   if (error) {
     handleLogError(error)
     return (
-        <Container>
+        <div>
           <h1>No movies found</h1>
-        </Container>
+        </div>
     )
   }
 
   return (
-      <Container>
+      <div>
         <MovieList movies={movies}/>
-      </Container>
+      </div>
   )
 }
 

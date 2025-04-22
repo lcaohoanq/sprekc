@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { handleLogError } from '../misc/Helpers'
-import { moviesApi } from '../misc/MoviesApi'
+import React, {useEffect, useState} from 'react'
+import {handleLogError} from '../misc/Helpers'
+import {moviesApi} from '../misc/MoviesApi'
 import MoviesForm from './MoviesForm'
 import MoviesTable from './MoviesTable'
-import { isAdmin } from '../misc/Helpers'
-import { Navigate } from 'react-router-dom'
+import {isAdmin} from '../misc/Helpers'
+import {Navigate} from 'react-router-dom'
 import ConfirmationModal from '../misc/ConfirmationModal'
-import { useKeycloak } from '@react-keycloak/web'
+import {useKeycloak} from '@react-keycloak/web'
 
 const formInitialState = {
   imdbId: '',
@@ -32,19 +32,19 @@ const modalInitialState = {
 function MoviesPage() {
 
   const [movies, setMovies] = useState([])
-  const [form, setForm] = useState({ ...formInitialState })
-  const [modal, setModal] = useState({ ...modalInitialState })
+  const [form, setForm] = useState({...formInitialState})
+  const [modal, setModal] = useState({...modalInitialState})
   const [movieToBeDeleted, setMovieToBeDeleted] = useState(null)
 
-  const { keycloak } = useKeycloak()
+  const {keycloak} = useKeycloak()
 
   useEffect(() => {
     handleGetMovies()
   }, [])
 
   const handleChange = (e) => {
-    const { id, value } = e.target
-    setForm((prevForm) => ({ ...prevForm, [id]: value }))
+    const {id, value} = e.target
+    setForm((prevForm) => ({...prevForm, [id]: value}))
   }
 
   const handleGetMovies = async () => {
@@ -62,8 +62,8 @@ function MoviesPage() {
       return
     }
 
-    const { imdbId, title, director, year, poster } = form
-    const movie = { imdbId, title, director, year, poster }
+    const {imdbId, title, director, year, poster} = form
+    const movie = {imdbId, title, director, year, poster}
     try {
       await moviesApi.saveMovie(movie, keycloak.token)
       clearForm()
@@ -102,7 +102,7 @@ function MoviesPage() {
   }
 
   const clearForm = () => {
-    setForm({ ...formInitialState })
+    setForm({...formInitialState})
   }
 
   const isValidForm = () => {
@@ -135,46 +135,50 @@ function MoviesPage() {
   }
 
   const handleCloseModal = () => {
-    setModal({ ...modalInitialState })
+    setModal({...modalInitialState})
     setMovieToBeDeleted(null)
   }
 
   if (!isAdmin(keycloak)) {
-    return <Navigate to='/' />
+    return <Navigate to='/'/>
   }
 
   return (
-    <Container>
-      <Grid>
-        <Grid.Column mobile={16} tablet={16} computer={4}>
-          <Segment>
-            <Header as='h2'>
-              <Icon name='video camera' />
-              <Header.Content>Movies</Header.Content>
-            </Header>
-            <Divider />
-            <MoviesForm
-              form={form}
-              handleChange={handleChange}
-              handleSaveMovie={handleSaveMovie}
-              clearForm={clearForm}
-            />
-          </Segment>
-        </Grid.Column>
-        <Grid.Column mobile={16} tablet={16} computer={12}>
-          <MoviesTable
-            movies={movies}
-            handleDeleteMovie={handleDeleteMovie}
-            handleEditMovie={handleEditMovie}
-          />
-        </Grid.Column>
-      </Grid>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Left Section: Movies Form */}
+          <div className="md:col-span-1">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <i className="fas fa-video text-3xl mr-3"></i>
+                <h2 className="text-2xl font-semibold">Movies</h2>
+              </div>
+              <div className="border-t border-gray-300 my-4"></div>
+              <MoviesForm
+                  form={form}
+                  handleChange={handleChange}
+                  handleSaveMovie={handleSaveMovie}
+                  clearForm={clearForm}
+              />
+            </div>
+          </div>
 
-      <ConfirmationModal
-        modal={modal}
-        movie={movieToBeDeleted}
-      />
-    </Container>
+          {/* Right Section: Movies Table */}
+          <div className="md:col-span-2">
+            <MoviesTable
+                movies={movies}
+                handleDeleteMovie={handleDeleteMovie}
+                handleEditMovie={handleEditMovie}
+            />
+          </div>
+        </div>
+
+        {/* Confirmation Modal */}
+        <ConfirmationModal
+            modal={modal}
+            movie={movieToBeDeleted}
+        />
+      </div>
   )
 }
 

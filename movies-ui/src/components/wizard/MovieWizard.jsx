@@ -140,94 +140,96 @@ function MovieWizard() {
     let stepContent = null
     if (step === 1) {
       stepContent = (
-        <SearchStep
-          searchText={searchText}
-          isLoading={isLoading}
-          movies={movies}
-          selectedMovie={selectedMovie}
-          handleChange={handleChange}
-          handleSearchMovies={handleSearchMovies}
-          handleTableSelection={handleTableSelection}
-        />
+          <SearchStep
+              searchText={searchText}
+              isLoading={isLoading}
+              movies={movies}
+              selectedMovie={selectedMovie}
+              handleChange={handleChange}
+              handleSearchMovies={handleSearchMovies}
+              handleTableSelection={handleTableSelection}
+          />
       )
     } else if (step === 2) {
       stepContent = (
-        <FormStep
-          imdbId={imdbId}
-          title={title}
-          director={director}
-          year={year}
-          poster={poster}
-          imdbIdError={imdbIdError}
-          titleError={titleError}
-          directorError={directorError}
-          yearError={yearError}
-          handleChange={handleChange}
-        />
+          <FormStep
+              imdbId={imdbId}
+              title={title}
+              director={director}
+              year={year}
+              poster={poster}
+              imdbIdError={imdbIdError}
+              titleError={titleError}
+              directorError={directorError}
+              yearError={yearError}
+              handleChange={handleChange}
+          />
       )
     } else if (step === 3) {
       const movie = { imdbId, title, director, year, poster }
       stepContent = (
-        <CompleteStep movie={movie} />
+          <CompleteStep movie={movie} />
       )
     }
 
     return (
-      <Container>
-        <Grid columns={2}>
-          <Grid.Column mobile={16} tablet={4} computer={4}>
-            <Step.Group fluid vertical >
-              <Step active={step === 1}>
-                <Icon name='search' />
-                <Step.Content>
-                  <Step.Title>Search</Step.Title>
-                  <Step.Description>Search movie</Step.Description>
-                </Step.Content>
-              </Step>
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-wrap">
+            <div className="w-full md:w-1/4 lg:w-1/4">
+              <div className="stepper bg-white rounded-lg shadow-md p-4">
+                <div className={`step ${step === 1 ? 'active' : ''}`}>
+                  <span className="icon">&#128269;</span>
+                  <div className="content">
+                    <h3 className="title">Search</h3>
+                    <p className="description">Search movie</p>
+                  </div>
+                </div>
 
-              <Step active={step === 2}>
-                <Icon name='film' />
-                <Step.Content>
-                  <Step.Title>Movie</Step.Title>
-                  <Step.Description>Movie Form</Step.Description>
-                </Step.Content>
-              </Step>
+                <div className={`step ${step === 2 ? 'active' : ''}`}>
+                  <span className="icon">&#127909;</span>
+                  <div className="content">
+                    <h3 className="title">Movie</h3>
+                    <p className="description">Movie Form</p>
+                  </div>
+                </div>
 
-              <Step active={step === 3}>
-                <Icon name='flag checkered' />
-                <Step.Content>
-                  <Step.Title>Complete</Step.Title>
-                  <Step.Description>Preview and complete</Step.Description>
-                </Step.Content>
-              </Step>
-            </Step.Group>
+                <div className={`step ${step === 3 ? 'active' : ''}`}>
+                  <span className="icon">&#127937;</span>
+                  <div className="content">
+                    <h3 className="title">Complete</h3>
+                    <p className="description">Preview and complete</p>
+                  </div>
+                </div>
+              </div>
 
-            <Button.Group fluid>
-              <Button
-                disabled={step === 1}
-                onClick={handlePreviousStep}>Back</Button>
-              <Button.Or />
-              <Button
-                positive
-                disabled={step === 3}
-                onClick={handleNextStep}>Next</Button>
-            </Button.Group>
+              <div className="button-group mt-4">
+                <button
+                    className="btn btn-secondary w-full py-2"
+                    disabled={step === 1}
+                    onClick={handlePreviousStep}>Back</button>
+                <button
+                    className="btn btn-primary w-full py-2 mt-2"
+                    disabled={step === 3}
+                    onClick={handleNextStep}>Next</button>
+              </div>
 
-            {step === 3 && (
-              <>
-                <Divider />
-                <Button fluid color='blue' onClick={handleCreateMovie}>Create</Button>
-              </>
-            )}
-          </Grid.Column>
-          <Grid.Column mobile={16} tablet={12} computer={12}>
-            {stepContent}
-          </Grid.Column>
-        </Grid>
-      </Container>
+              {step === 3 && (
+                  <>
+                    <div className="divider my-4" />
+                    <button
+                        className="btn btn-blue w-full py-2"
+                        onClick={handleCreateMovie}>Create</button>
+                  </>
+              )}
+            </div>
+
+            <div className="w-full md:w-3/4 lg:w-3/4">
+              {stepContent}
+            </div>
+          </div>
+        </div>
     )
   }
-
 
   return keycloak && keycloak.authenticated && isAdmin(keycloak) ? getContent() : <Navigate to='/' />
 }
